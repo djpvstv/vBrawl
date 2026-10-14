@@ -134,12 +134,15 @@ CSS Cursor Speed [Dantarion]
 #############################
 float 1.0 @ $806A1014
 
-#############################
-!Skip Results Screen (v1.02) [Dan Salvato]
-#############################
-* 041b15cc 38800000
+.include Source/ProjectM/CSS.asm
+.include Source/ProjectM/SSSButtons.asm
+
+.include Source/LegacyTE/TagsControls.asm
+
+.include Source/LegacyTE/CSSCustomControls.asm
 
 .include Source/Project+/Debug/modifiedDebug.asm
+.include Source/Project+/CStick.asm		# Don't move this to BOOST, it will cause aerial drift for some reason
 
 .include Source/Community/Syringe.asm
 .include Source/Project+/MultiGCT.asm      	# MAKE SURE THIS IS AT THE VERY BOTTOM OF THIS CODESET!!!
