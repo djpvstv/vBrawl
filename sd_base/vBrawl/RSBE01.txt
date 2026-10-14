@@ -16,7 +16,40 @@
 ############################################################################
 
 .include Source/P+Ex/Hooktype.asm
+
+######################################################
+BA and BLA are usable instructions v1.3 [Eon, taukhan]
+######################################################
+# Required by CodeMenu.asm and its addons, which call game functions with bla.
+  .po<-flag
+32000000 00000001 #if flag != 1
+14000000 00000001 #set flag to 1
+  .goto->code
+
+flag:
+  word 0;
+code:
+PULSE #80568100
+{
+  li r3, 0x2
+  #virtual address space = 0x00000000
+  word 0x7C7383A6   #mtibatl 1, r3  #sets instruction bat lower half
+  li r3, 0x1FF
+  #physical address space = 0x00000000
+  word 0x7C7283A6   #mtibatu 1, r3  #sets instruction bat upper half
+  isync 
+  blr
+}
+* E2000001 80008000
+
 .include Source/Project+/BootToCSS.asm
+
+.include Source/CodeMenu/CodeMenu.asm
+.include Source/CodeMenu/BigHeadMode.asm
+.include Source/CodeMenu/InputBuffer.asm
+.include Source/CodeMenu/RandomAngleMode.asm
+.include Source/CodeMenu/ScaleModifier.asm
+.include Source/CodeMenu/SpeedModifier.asm
 
 #########################
 Unrestricted Pause Camera
