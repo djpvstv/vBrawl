@@ -1,0 +1,54 @@
+############################################################################
+# RSBE01.txt    												                                   #
+#                        												                           #
+# Requires GCTRealMate and the source folder provided to assemble the GCT! #
+#																		                                       #
+# GCTconvert codes are compatible, if you want to add your own codes, add  #
+# them to this txt file, but be mindful of the size of the resulting GCT,  #
+# as making it too big will cause it to fail entirely!!!				           #
+#																		                                       #
+# If you wish to keep your new codes organized, you can also summon        #
+# separate text files by using .include Source/<filename>, 				         #
+# or simply add them to there, directly. To disable one, simply place an   #
+# exclamation point in front of the name of that code!	 				           #
+#                                                                          #
+# Enjoy your custom Brawl!!												                         #
+############################################################################
+
+#############################################################################
+######################          Backend Codes          ######################
+#############################################################################
+
+.include Source/P+Ex/Hooktype.asm
+.include Source/Project+/BootToCSS.asm
+
+#############################################################################
+Reset multipac stage lock status between Classic & All-Star matches [wiiztec]
+#############################################################################
+HOOK @ $80044A34
+{
+	lwz r4, 0x8(r3)
+	cmpwi r8, 0x1
+	bne- %END%
+	lis r12, 0x8059
+	stw r15, -0x7D08(r12)
+}
+
+#########################
+Unrestricted Pause Camera
+#########################
+op blr 		@ $800A7D60
+op li r4, 1	@ $80109D88
+
+##########################
+Unrestricted Replay Camera
+##########################
+op NOP 		@ $8009E934
+op NOP 		@ $8009E93C
+op fmr f1, f3	@ $8009E9AC
+op fmr f3, f0	@ $8009E9B8
+op fmr f0, f1	@ $8009E9BC
+op fmr f0, f3	@ $8009E9C8
+
+.include Source/Community/Syringe.asm
+.include Source/Project+/MultiGCT.asm      	# MAKE SURE THIS IS AT THE VERY BOTTOM OF THIS CODESET!!!
