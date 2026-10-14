@@ -23,7 +23,7 @@
 			<option value="OFF" />
 		</codeMenuSelection>
 		<codeMenuToggle name="Autoskip Results Screen">
-			<defaultValue value="false" editable="true" />
+			<defaultValue value="true" editable="true" />
 		</codeMenuToggle>
 		<codeMenuToggle name="Autosave Replays">
 			<defaultValue value="false" editable="true" />
