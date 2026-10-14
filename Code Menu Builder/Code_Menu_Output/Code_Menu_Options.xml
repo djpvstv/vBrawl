@@ -428,7 +428,7 @@
 			<speed value="0.001000" />
 		</codeMenuFloat>
 		<codeMenuSelection name="Staling Toggle">
-			<defaultOption index="0" editable="true" />
+			<defaultOption index="1" editable="true" />
 			<option value="Default" />
 			<option value="ON" />
 			<option value="OFF" />

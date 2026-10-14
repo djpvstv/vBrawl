@@ -139,5 +139,7 @@ float 1.0 @ $806A1014
 #############################
 * 041b15cc 38800000
 
+.include Source/Project+/Debug/modifiedDebug.asm
+
 .include Source/Community/Syringe.asm
 .include Source/Project+/MultiGCT.asm      	# MAKE SURE THIS IS AT THE VERY BOTTOM OF THIS CODESET!!!
