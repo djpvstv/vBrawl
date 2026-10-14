@@ -1,8 +1,9 @@
-#######################################################
-Reduce InfoInstance in SSE v2 [Sammi Husky, Kapedani]
-######################################################
+################################################################
+Reduce InfoInstance in SSE v3 [Sammi Husky, Kapedani, QuickLava]
+################################################################
 word 0x12B440 @ $80421f9c
-word 0x12B440 @ $8042204C # Great Maze save room
+word 0x12B440 @ $8042204C # Great Maze Save Room 1
+word 0x119C00 @ $8042207C # Great Maze Save Room 2
 
 #################################################
 Don't clear memory on game launch [Sammi Husky]
@@ -53,73 +54,101 @@ HOOK @ $800272b8
     lwz r4, 0x0(r30)
 }
 
-
-
-#############################################
-Syringe Core Loader [Sammi Husky, Exul Anima]
-#############################################
-
-#######################
-# Create Syringe heap #
-#######################
-HOOK @ $800244E4
+####################################################################
+Syringe Core Loader [Sammi Husky, DukeItOut]
+####################################################################
+#
+# This version assumes sy_core.rel is in common2.pac, not by itself!
+####################################################################
+HOOK @ $80018074
 {
-    ## NOTE:
-    ## This build has reduced the size of MeleeFont to make room for Syringe
-    ## in the now freed space. The reason why the Syringe heap isn't just at the end is to prevent
-    ## any internal shifts of the memory map that could compromise hardcoded patches we may not know about.
+# below is related to creating a custom heap 60	
 
-    ## NOTE:
-    ## Tmp always comes before MeleeFont, so we squeeze in Syringe between 
-    ## the two if Tmp is about to be allocated.
-
-    lwz r3, 0x4(r30)    # \ If Tmp heap is about to be allocated, allocate Syringe before it.
-    cmplwi r3, 0xC      # /
-    bne _end            # Otherwise skip to end.
-    
-    # simple stack frame
-    stwu r1, -0xa0(r1)
-    mflr r0
-    stw r0, 0xa4(r1)
-    stmw r3, 0x20(r1)   # store all our registers on the stack
     bl _main            # branch to our main code, this puts data section addr in LR
-
+						# we're using link register abuse to skip the table below
     #############################
     # pseudo data section
     #############################
-    word 0x20800    # Syringe heap size
+    word 0x817ba5a0 # Syringe heap start addr
+    word 0x79b00    # \ 					    # Normally 99B00 in vBrawl
+    word 0x4Cb900   # | Menu Instance sizes	    # Normally 4EB90 in vBrawl
+    word 0x393400   # /						    # Normally 3B3400 in vBrawl
     
-    word 0x53797269 # "Syriinge"
-    word 0x696E6765
-    word 0x00000000
-    #############################
+    word 0x53797269 # "Syringe"
+    word 0x6E676500
+	
+	word 0x73795F63 # "sy_core.rel"
+    word 0x6F72652E
+    word 0x72656C00
+    #############################	
 
 _main:
-    mflr r31
+    mflr r26
+    
+    lswi r3, r26, 16 # loads our data into r3-r6
+
+    # # Uncommented the below, as we're using BrawlEx
+    # lis r0, 1       # \
+    # sub r3, r3, r0  # | If brawlex is present, our heap start will
+    # sub r4, r4, r0  # | need to be 0x10000 earlier and menu instance
+    # sub r5, r5, r0  # | needs to be reduced by the same amount.
+    # sub r6, r6, r0  # /
+
+_storeSize:
+    lis r7, 0x8042
+    stw r4, 0x1D84(r7) # \
+    stw r5, 0x2254(r7) # | Write our menuInstance size patches
+    stw r6, 0x2394(r7) # /
 
 _createHeap:
-    li r3, 0x3C         # heap ID 60
-    addi r4, r31, 0x4   # "Syriinge"
-    lis r5, 0x0         # heap in MEM1 (arena 0)
-    lwz r6, 0x0(r31)    # heap size
+    lis r4, 1
+    addi r5, r26, 0x10 # "Syringe"
+    lis r6, 0x8049
+    ori r6, r6, 0x4D18
+    stw r5, 0(r6)
+    stw r3, 4(r6)
+    stw r4, 8(r6)
     lis r12, 0x8002
-    ori r12, r12, 0x4544
+    ori r12, r12, 0x59A4
     mtctr r12
-    bctrl   # createHeap/[gfHeapManager]
+    bctrl # create/[gfMemoryPool]	
+	
+### above is related to creating a custom heap 60
+### below is related to placing files within it
+	
+	subi r0, r31, 2				# \
+	lwz r3, 0x54(r29)			# |
+	addi r6, r1, 8				# | Going through the motions of preparing to read a .rel 
+	li r4, 1					# |
+	rlwinm r7, r0, 0, 16, 31	# /
 
-    # clean up our stack frame
-    lmw r3, 0x20(r1)
-    lwz r0, 0xa4(r1)
-    mtlr r0
-    addi r1, r1, 0xa0
-
-_end:
-    lwz r4, 0x0(r30)    # Original instruction.
+	li r5, 18				# sy_core.rel is file 18 in common2.pac
+	lis r12, 0x8001			# \
+	ori r12, r12, 0x5E14	# | get data from archive common2.pac
+	mtctr r12				# |
+	bctrl 					# /	
+	
+	mr r6, r3				# \
+	lwz r3, -0x43E8(r13)	# | Module load preparations
+	lwz r7, 8(r1)			# |
+	addi r4, r26, 0x18		# /
+	li r5, 60				# Load into heap 60: Syringe
+	lis r12, 0x8002			# \
+	ori r12, r12, 0x7060	# |
+	mtctr r12				# | Prepare to load module
+	bctrl					# /
+		
+	subi r0, r31, 2			# original operation for prepping to load sora_melee.rel 
 }
 
-#####################
-# Load Syringe core #
-#####################
+
+/*
+
+# Kept in here for referential purposes on how to load a module
+
+########################################
+Syringe Core Loader [Sammi Husky]
+########################################
 HOOK @ $800180a0
 {
     # simple stack frame
@@ -132,6 +161,14 @@ HOOK @ $800180a0
     #############################
     # pseudo data section
     #############################
+    word 0x817ba5a0 # Syringe heap start addr
+    word 0x79b00    # \ 					    # Normally 99B00 in vBrawl
+    word 0x4Cb900   # | Menu Instance sizes	    # Normally 4EB90 in vBrawl
+    word 0x393400   # /						    # Normally 3B3400 in vBrawl
+    
+    word 0x53797269 # "Syringe"
+    word 0x6E676500
+    
     word 0x6476643A # "dvd:/module/sy_core.rel"
     word 0x2F6D6F64
     word 0x756C652F
@@ -142,7 +179,35 @@ HOOK @ $800180a0
 
 _main:
     mflr r31
+    
+    lswi r3, r31, 16 # loads our data into r3-r6
 
+    # Uncommented the below, as we're using BrawlEx
+    lis r0, 1       # \
+    sub r3, r3, r0  # | If brawlex is present, our heap start will
+    sub r4, r4, r0  # | need to be 0x10000 earlier and menu instance
+    sub r5, r5, r0  # | needs to be reduced by the same amount.
+    sub r6, r6, r0  # /
+
+_storeSize:
+    lis r7, 0x8042
+    stw r4, 0x1D84(r7) # \
+    stw r5, 0x2254(r7) # | Write our menuInstance size patches
+    stw r6, 0x2394(r7) # /
+
+_createHeap:
+    lis r4, 1
+    addi r5, r31, 0x10 # "Syringe"
+    lis r6, 0x8049
+    ori r6, r6, 0x4D18
+    stw r5, 0(r6)
+    stw r3, 4(r6)
+    stw r4, 8(r6)
+    lis r12, 0x8002
+    ori r12, r12, 0x59A4
+    mtctr r12
+    bctrl # create/[gfMemoryPool]
+    
 _loadModule:
     li r6, 0            # \ Zero out space on the stack for 
     stw r6, 0x8(r1)     # / gfFileIOHandle object
@@ -151,7 +216,7 @@ _loadModule:
     # gfFileIOHandle::read
     # ---------------------- #
     addi r3, r1, 0x8    # our gfFileIOHandle pointer
-    addi r4, r31, 0x0   # "dvd:/module/sy_core.rel"
+    addi r4, r31, 0x18  # "dvd:/module/sy_core.rel"
     li r5, 0x3c         # Syringe heap id
     lis r12, 0x8002
     ori r12, r12, 0x19e0
@@ -224,3 +289,4 @@ _loadModule:
 
     li r5, 0x32 # original instruction
 }
+*/

@@ -1,23 +1,19 @@
 ############################################################################
-# RSBE01.txt    												                                   #
-#                        												                           #
+# RSBE01.txt    												           #
+#                        												   #
 # Requires GCTRealMate and the source folder provided to assemble the GCT! #
-#																		                                       #
+#																		   #
 # GCTconvert codes are compatible, if you want to add your own codes, add  #
 # them to this txt file, but be mindful of the size of the resulting GCT,  #
-# as making it too big will cause it to fail entirely!!!				           #
-#																		                                       #
+# as making it too big will cause it to fail entirely!!!				   #
+#																		   #
 # If you wish to keep your new codes organized, you can also summon        #
-# separate text files by using .include Source/<filename>, 				         #
+# separate text files by using .include Source/<filename>, 				   #
 # or simply add them to there, directly. To disable one, simply place an   #
-# exclamation point in front of the name of that code!	 				           #
+# exclamation point in front of the name of that code!	 				   #
 #                                                                          #
-# Enjoy your custom Brawl!!												                         #
+# Enjoy your custom Brawl!!												   #
 ############################################################################
-
-#############################################################################
-######################          Backend Codes          ######################
-#############################################################################
 
 .include Source/P+Ex/Hooktype.asm
 .include Source/Project+/BootToCSS.asm
@@ -50,5 +46,66 @@ op fmr f3, f0	@ $8009E9B8
 op fmr f0, f1	@ $8009E9BC
 op fmr f0, f3	@ $8009E9C8
 
-.include Source/Community/Syringe.asm
+.include Source/Project+/FilePatchCode.asm
+
+# Causes crash, do not include for now, check one-by-one
+##########################################
+!Tripping Rate is 0 V3.1 [Kapedani]
+##########################################
+* op stfs f1, 0x04D0(r3) @ $8081bd54
+* op lfs f1, -0x4BBC(r31) @ $809a9a44
+
+################################
+!Controller Input Lag Fix [Magus]
+# Included in DirectionalInput
+################################
+HOOK @ $8002AD8C
+{
+  add r3, r3, r0
+  subi r3, r3, 0x404
+}
+
+###########################################
+!Reset Tag when Unplugged [standardtoaster]
+###########################################
+HOOK @ $80695264
+{
+	stw r0, 0x1C8(r28) 
+	lwz r3, 0x1E4(r28)
+}
+
+######################################################################
+!Japanese character support in name maker [Dantarion, standardtoaster]
+######################################################################
+CODE @ $80674534
+{
+	addi r4, r28, 0
+	li r5, 0x14
+	bl -0x670204
+	li r0, 0x5
+}
+int[6] 2, 4, 0, 1, 3, 0 @ $8067B790
+
+#######################################
+!Allow disabled names [standardtoaster]
+#######################################
+op b 0xC @ $8069B82C
+op NOP   @ $806781E4
+
+#####################################
+!Existing Tag Usage [standardtoaster]
+#####################################
+op mr r19, r3 @ $8069B868
+
+#############################
+!CSS Cursor Speed [Dantarion]
+#############################
+float 1.0 @ $806A1014
+
+#############################
+!Skip Results Screen (v1.02) [Dan Salvato]
+#############################
+* 041b15cc 38800000
+
+#.include Source/Community/Syringe.asm
 .include Source/Project+/MultiGCT.asm      	# MAKE SURE THIS IS AT THE VERY BOTTOM OF THIS CODESET!!!
