@@ -67,3 +67,7 @@ Have all Challenge Data [eric]
 * 42000000 90000000
 * 0817CB68 02020202
 * 201F0004 00000000
+
+# The eric unlock codes above set the base address to 0x90000000 (42000000 90000000).
+# Reset it so codes included after this file target 0x80000000 again.
+* E0000000 80008000

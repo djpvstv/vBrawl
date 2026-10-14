@@ -646,8 +646,6 @@ op  blr  @ $8001eb94
 .RESET
 
 
-.include Source/P+Ex/ReplacementSoundbankEngine.asm
-
 ##########################################
 SDHC/SDXC Extension 2.0 [Bero, Exul Anima]
 ##########################################
@@ -828,63 +826,6 @@ HOOK @ $8001F59C			# call this function
 	mtlr r0
 	addi r1, r1, 0x100
 	blr
-}
-
-##########################################################
-Store Heap Level for Common Sawnds [Sammi Husky, Kapedani]
-##########################################################
-
-.alias SOUND_GROUP_0D6_HEAP_LEVEL_ADDR = 0x80B52550
-.alias SOUND_GROUP_000_HEAP_LEVEL_ADDR = 0x80B52554 
-.alias SOUND_GROUP_0D5_HEAP_LEVEL_ADDR = 0x80B52558 
-.alias SOUND_GROUP_0D7_HEAP_LEVEL_ADDR = 0x80B5255C 
-.alias SOUND_GROUP_0D8_HEAP_LEVEL_ADDR = 0x80B52560 
-.alias SOUND_GROUP_027_HEAP_LEVEL_ADDR = 0x80B52564
-
-.macro swd(<storeReg>, <addrReg>, <addr>)
-{
-    .alias  temp_Lo = <addr> & 0xFFFF
-    .alias  temp_Hi_ = <addr> / 0x10000
-    .alias  temp_r = temp_Lo / 0x8000
-    .alias  temp_Hi = temp_Hi_ + temp_r
-    lis     <addrReg>, temp_Hi
-    stw     <storeReg>, temp_Lo(<addrReg>)
-}
-
-HOOK @ $806bf8d4
-{
-  %swd(r3, r12, SOUND_GROUP_0D6_HEAP_LEVEL_ADDR)
-  lwz r3, 0x01D0(r27)      # Original operatation
-}
-
-HOOK @ $806bf8fc
-{
-  %swd(r3, r12, SOUND_GROUP_000_HEAP_LEVEL_ADDR)
-  lwz r3, 0x01D0(r27)      # Original operatation  
-}
-
-HOOK @ $806bf910
-{
-  %swd(r3, r12, SOUND_GROUP_0D5_HEAP_LEVEL_ADDR)
-  lwz r3, 0x01D0(r27)      # Original operatation  
-}
-
-HOOK @ $806bf924
-{
-  %swd(r3, r12, SOUND_GROUP_0D7_HEAP_LEVEL_ADDR)
-  lwz r3, 0x01D0(r27)      # Original operatation  
-}
-
-HOOK @ $806bf938
-{
-  %swd(r3, r12, SOUND_GROUP_0D8_HEAP_LEVEL_ADDR)
-  lwz r3, 0x01D0(r27)      # Original operatation  
-}
-
-HOOK @ $806bf94c
-{
-  %swd(r3, r12, SOUND_GROUP_027_HEAP_LEVEL_ADDR)
-  li r0, 0                 # Original operatation  
 }
 
 #######################################################################
