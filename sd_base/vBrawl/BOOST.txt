@@ -1,3 +1,5 @@
 .include Source/Project+/Unlocks.asm
 
 .include Source/ProjectM/TrainingMode.asm
+
+.include Source/P+Ex/AllStar.asm
