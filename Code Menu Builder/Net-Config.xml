@@ -27,6 +27,7 @@
         <!--Add entries in the following format:
         <lineColor lineKind="0" colorHex="0xRRGGBBAA" />
         -->
+        <!-- <lineColor lineKind="9" colorHex="0xFF8000FF" />   title, RRGGBBAA -->
         <!--Where "lineKind" corresponds to the type of line whose color you're modifying.-->
         <!--0: Normal, 1: Selected, 2: Changed, 3: Changed & Selected-->
         <!--4: Locked, 5: Locked & Selected, 6: Locked & Changed, 7: Locked & Changed & Selected, 8: Comment-->

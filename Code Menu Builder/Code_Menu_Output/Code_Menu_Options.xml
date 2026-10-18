@@ -711,7 +711,7 @@
 			<defaultValue value="false" editable="true" />
 		</codeMenuToggle>
 	</codeMenuPage>
-	<codeMenuPage name="HUD Colors">
+	<codeMenuPage name="HUD Colors" hidden="true">
 		<codeMenuSelection name="Player 1" sticky="true">
 			<defaultOption index="0" editable="true" />
 			<option value="P1" />
