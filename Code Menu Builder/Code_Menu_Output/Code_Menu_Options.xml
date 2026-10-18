@@ -16,14 +16,14 @@
 			<option value="Random" />
 			<option value="Same" />
 		</codeMenuSelection>
-		<codeMenuSelection name="Alternate Stages">
+		<codeMenuSelection name="Alternate Stages" hidden="true">
 			<defaultOption index="0" editable="true" />
 			<option value="Enabled" />
 			<option value="Random" />
 			<option value="OFF" />
 		</codeMenuSelection>
 		<codeMenuToggle name="Autoskip Results Screen">
-			<defaultValue value="true" editable="true" />
+			<defaultValue value="false" editable="true" />
 		</codeMenuToggle>
 		<codeMenuToggle name="Autosave Replays">
 			<defaultValue value="false" editable="true" />
@@ -31,8 +31,8 @@
 		<codeMenuToggle name="Save Previous Replay">
 			<defaultValue value="false" editable="true" />
 		</codeMenuToggle>
-		<codeMenuSelection name="Tag-Based Costumes">
-			<defaultOption index="0" editable="true" />
+		<codeMenuSelection name="Tag-Based Costumes" hidden="true">
+			<defaultOption index="2" editable="true" />
 			<option value="ON" />
 			<option value="ON + Teams" />
 			<option value="OFF" />
@@ -163,19 +163,19 @@
 			<option value="9" />
 			<option value="10" />
 		</codeMenuSelection>
-		<codeMenuSelection name="Automatic L-Cancelling">
+		<codeMenuSelection name="Automatic L-Cancelling" hidden="true">
 			<defaultOption index="0" editable="true" />
 			<option value="OFF" />
 			<option value="ON" />
 			<option value="Modified" />
 		</codeMenuSelection>
-		<codeMenuFloat name="ALC Modifier">
+		<codeMenuFloat name="ALC Modifier" hidden="true">
 			<minValue value="0.099000" />
 			<defaultValue value="0.500000" editable="true" />
 			<maxValue value="3.000000" />
 			<speed value="0.050000" />
 		</codeMenuFloat>
-		<codeMenuToggle name="Red Flash on L-Cancel Failure">
+		<codeMenuToggle name="Red Flash on L-Cancel Failure" hidden="true">
 			<defaultValue value="false" editable="true" />
 		</codeMenuToggle>
 	</codeMenuPage>
@@ -203,17 +203,17 @@
 			<defaultOption index="9" editable="true" />
 			<!--Note: This Selection is a mirror of "Player 1 Codes > Input Buffer"!-->
 		</codeMenuSelection>
-		<codeMenuSelection name="Automatic L-Cancelling">
+		<codeMenuSelection name="Automatic L-Cancelling" hidden="true">
 			<defaultOption index="0" editable="true" />
 			<!--Note: This Selection is a mirror of "Player 1 Codes > Automatic L-Cancelling"!-->
 		</codeMenuSelection>
-		<codeMenuFloat name="ALC Modifier">
+		<codeMenuFloat name="ALC Modifier" hidden="true">
 			<minValue value="0.099000" />
 			<defaultValue value="0.500000" editable="true" />
 			<maxValue value="3.000000" />
 			<speed value="0.050000" />
 		</codeMenuFloat>
-		<codeMenuToggle name="Red Flash on L-Cancel Failure">
+		<codeMenuToggle name="Red Flash on L-Cancel Failure" hidden="true">
 			<defaultValue value="false" editable="true" />
 		</codeMenuToggle>
 	</codeMenuPage>
@@ -241,17 +241,17 @@
 			<defaultOption index="9" editable="true" />
 			<!--Note: This Selection is a mirror of "Player 1 Codes > Input Buffer"!-->
 		</codeMenuSelection>
-		<codeMenuSelection name="Automatic L-Cancelling">
+		<codeMenuSelection name="Automatic L-Cancelling" hidden="true">
 			<defaultOption index="0" editable="true" />
 			<!--Note: This Selection is a mirror of "Player 1 Codes > Automatic L-Cancelling"!-->
 		</codeMenuSelection>
-		<codeMenuFloat name="ALC Modifier">
+		<codeMenuFloat name="ALC Modifier" hidden="true">
 			<minValue value="0.099000" />
 			<defaultValue value="0.500000" editable="true" />
 			<maxValue value="3.000000" />
 			<speed value="0.050000" />
 		</codeMenuFloat>
-		<codeMenuToggle name="Red Flash on L-Cancel Failure">
+		<codeMenuToggle name="Red Flash on L-Cancel Failure" hidden="true">
 			<defaultValue value="false" editable="true" />
 		</codeMenuToggle>
 	</codeMenuPage>
@@ -279,17 +279,17 @@
 			<defaultOption index="9" editable="true" />
 			<!--Note: This Selection is a mirror of "Player 1 Codes > Input Buffer"!-->
 		</codeMenuSelection>
-		<codeMenuSelection name="Automatic L-Cancelling">
+		<codeMenuSelection name="Automatic L-Cancelling" hidden="true">
 			<defaultOption index="0" editable="true" />
 			<!--Note: This Selection is a mirror of "Player 1 Codes > Automatic L-Cancelling"!-->
 		</codeMenuSelection>
-		<codeMenuFloat name="ALC Modifier">
+		<codeMenuFloat name="ALC Modifier" hidden="true">
 			<minValue value="0.099000" />
 			<defaultValue value="0.500000" editable="true" />
 			<maxValue value="3.000000" />
 			<speed value="0.050000" />
 		</codeMenuFloat>
-		<codeMenuToggle name="Red Flash on L-Cancel Failure">
+		<codeMenuToggle name="Red Flash on L-Cancel Failure" hidden="true">
 			<defaultValue value="false" editable="true" />
 		</codeMenuToggle>
 	</codeMenuPage>
