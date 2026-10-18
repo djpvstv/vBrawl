@@ -44,6 +44,13 @@ PULSE #80568100
 
 .include Source/Project+/BootToCSS.asm
 
+.include Source/CodeMenu/Net-CodeMenu.asm
+.include Source/CodeMenu/BigHeadMode.asm
+.include Source/CodeMenu/InputBuffer.asm
+.include Source/CodeMenu/RandomAngleMode.asm
+.include Source/CodeMenu/ScaleModifier.asm
+.include Source/CodeMenu/SpeedModifier.asm
+
 #########################
 Unrestricted Pause Camera
 #########################
@@ -134,7 +141,7 @@ float 1.0 @ $806A1014
 
 .include Source/LegacyTE/CSSCustomControls.asm
 
-#.include Source/Project+/Debug/modifiedDebug.asm
+.include Source/Project+/Debug/modifiedDebug.asm
 .include Source/Project+/CStick.asm		# Don't move this to BOOST, it will cause aerial drift for some reason
 
 .include Source/Community/Syringe.asm

@@ -150,7 +150,7 @@
 			<defaultValue value="false" editable="true" />
 		</codeMenuToggle>
 		<codeMenuSelection name="Input Buffer">
-			<defaultOption index="0" editable="true" />
+			<defaultOption index="9" editable="true" />
 			<option value="0" />
 			<option value="1" />
 			<option value="2" />
@@ -200,7 +200,7 @@
 			<defaultValue value="false" editable="true" />
 		</codeMenuToggle>
 		<codeMenuSelection name="Input Buffer">
-			<defaultOption index="0" editable="true" />
+			<defaultOption index="9" editable="true" />
 			<!--Note: This Selection is a mirror of "Player 1 Codes > Input Buffer"!-->
 		</codeMenuSelection>
 		<codeMenuSelection name="Automatic L-Cancelling">
@@ -238,7 +238,7 @@
 			<defaultValue value="false" editable="true" />
 		</codeMenuToggle>
 		<codeMenuSelection name="Input Buffer">
-			<defaultOption index="0" editable="true" />
+			<defaultOption index="9" editable="true" />
 			<!--Note: This Selection is a mirror of "Player 1 Codes > Input Buffer"!-->
 		</codeMenuSelection>
 		<codeMenuSelection name="Automatic L-Cancelling">
@@ -260,7 +260,7 @@
 			<defaultValue value="false" editable="true" />
 		</codeMenuToggle>
 		<codeMenuSelection name="P4 Character Select">
-			<defaultOption index="0" editable="true" />
+			<defaultOption index="9" editable="true" />
 			<!--Note: This Selection is a mirror of "Player 1 Codes > P1 Character Select"!-->
 		</codeMenuSelection>
 		<codeMenuFloat name="Select Percent">
@@ -276,7 +276,7 @@
 			<defaultValue value="false" editable="true" />
 		</codeMenuToggle>
 		<codeMenuSelection name="Input Buffer">
-			<defaultOption index="0" editable="true" />
+			<defaultOption index="9" editable="true" />
 			<!--Note: This Selection is a mirror of "Player 1 Codes > Input Buffer"!-->
 		</codeMenuSelection>
 		<codeMenuSelection name="Automatic L-Cancelling">

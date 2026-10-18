@@ -12,13 +12,15 @@ set "ENTER=sd_base\vBrawl\enter.txt"
 set "FIGHTER_DIR=sd_base\vBrawl\rsbe\pf\fighter"
 
 set "BUILDER_DIR=Code Menu Builder"
-set "BUILDER_EXE=%BUILDER_DIR%\PowerPC Assembly Functions.exe"
+set "BUILDER_EXE=PowerPC Assembly Functions - Offline.exe"
+set "BUILDER_EXE_NET=PowerPC Assembly Functions - Netplay.exe"
 set "CM_OUTPUT=%BUILDER_DIR%\Code_Menu_Output"
-set "CM_CMNU=%CM_OUTPUT%\data.cmnu"
-set "CM_ASM=%CM_OUTPUT%\CodeMenu.asm"
 set "CM_ADDONS_SRC=%CM_OUTPUT%\CM_Addons"
-set "CM_CMNU_DST=sd_base\vBrawl\pf\menu3\data.cmnu"
-set "CM_ASM_DST=sd_base\vBrawl\Source\CodeMenu\CodeMenu.asm"
+
+:: Both menus go to pf\menu3 and Source\CodeMenu. Like P+Ex, only the offline
+:: build's CM_Addons is deployed; both CodeMenu.asm and Net-CodeMenu.asm include it.
+set "CM_CMNU_DST_DIR=sd_base\vBrawl\pf\menu3"
+set "CM_ASM_DST_DIR=sd_base\vBrawl\Source\CodeMenu"
 set "CM_ADDONS_DST=sd_base\vBrawl\Source\CM_Addons"
 
 echo.
@@ -27,94 +29,92 @@ echo ^|                  vBrawl Builder                  ^|
 echo +==================================================+
 echo.
 
-:: Check GCTRealMate
+:: Check GCTRealMate and both builders
 if not exist "%GCT%" (
     echo [ERROR] GCTRealMate.exe not found! >&2
     echo         Expected in: %GCT%
     goto :finalpause
 )
-
-:: 1. Code Menu Builder (blocks on _getch; delete-then-poll-then-kill)
-echo .
-echo ===================================
-echo [1/6] Running Code Menu Builder...
-echo ===================================
-if exist "%CM_CMNU%" del /q "%CM_CMNU%"
-pushd "%BUILDER_DIR%"
-start "" /B "PowerPC Assembly Functions.exe"
-popd
-
-set /a cm_tries=0
-:cmwait
-if %cm_tries% GEQ 120 goto :cmtimeout
-if exist "%CM_CMNU%" (
-    timeout /t 1 /nobreak >nul
-    taskkill /F /IM "PowerPC Assembly Functions.exe" >nul 2>&1
-    goto :cmdeploy
+if not exist "%BUILDER_DIR%\%BUILDER_EXE%" (
+    echo [ERROR] %BUILDER_EXE% not found in %BUILDER_DIR%! >&2
+    goto :finalpause
 )
-timeout /t 1 /nobreak >nul
-set /a cm_tries+=1
-goto :cmwait
+if not exist "%BUILDER_DIR%\%BUILDER_EXE_NET%" (
+    echo [ERROR] %BUILDER_EXE_NET% not found in %BUILDER_DIR%! >&2
+    goto :finalpause
+)
 
-:cmtimeout
-echo   [WARNING] Builder did not produce data.cmnu within 120 s, terminating.
-taskkill /F /IM "PowerPC Assembly Functions.exe" >nul 2>&1
-
-:cmdeploy
+:: 1. Offline Code Menu
 echo.
-echo Deploying Code Menu Builder output:
-if exist "%CM_ADDONS_SRC%" (
-    if exist "%CM_ADDONS_DST%" rmdir /S /Q "%CM_ADDONS_DST%"
-    xcopy /E /I /Y /Q "%CM_ADDONS_SRC%" "%CM_ADDONS_DST%" >nul
-    echo   Replaced CM_Addons
-) else (
-    echo   [ERROR] %CM_ADDONS_SRC% not found!
-)
-if exist "%CM_CMNU%" (
-    copy /Y "%CM_CMNU%" "%CM_CMNU_DST%" >nul
-    echo   Replaced data.cmnu
-) else (
-    echo   [ERROR] %CM_CMNU% not found!
-)
-if exist "%CM_ASM%" (
-    copy /Y "%CM_ASM%" "%CM_ASM_DST%" >nul
-    echo   Replaced CodeMenu.asm
-) else (
-    echo   [ERROR] %CM_ASM% not found!
+echo ===========================================
+echo [1/7] Running Code Menu Builder (Offline)...
+echo ===========================================
+call :runbuilder "%BUILDER_EXE%" "data.cmnu"
+echo.
+echo Deploying offline Code Menu Builder output:
+call :copyaddons "%CM_ADDONS_DST%"
+call :copyfile "data.cmnu" "%CM_CMNU_DST_DIR%"
+call :copyfile "CodeMenu.asm" "%CM_ASM_DST_DIR%"
+echo.
+
+:: 2. Netplay Code Menu
+echo.
+echo ===========================================
+echo [2/7] Running Code Menu Builder (Netplay)...
+echo ===========================================
+call :runbuilder "%BUILDER_EXE_NET%" "dnet.cmnu"
+echo.
+echo Deploying netplay Code Menu Builder output:
+call :copyfile "dnet.cmnu" "%CM_CMNU_DST_DIR%"
+call :copyfile "Net-CodeMenu.asm" "%CM_ASM_DST_DIR%"
+:: AddonAliases.asm holds addresses of addon lines inside the menu file. The shared
+:: CM_Addons comes from the offline build, so warn if the netplay menu's layout differs.
+if exist "%CM_ADDONS_SRC%\AddonAliases.asm" if exist "%CM_ADDONS_DST%\AddonAliases.asm" (
+    fc /b "%CM_ADDONS_SRC%\AddonAliases.asm" "%CM_ADDONS_DST%\AddonAliases.asm" >nul 2>&1
+    if errorlevel 1 (
+        echo   [WARNING] Netplay AddonAliases.asm differs from the offline one. dnet.cmnu has a
+        echo             different layout, so its addon lines may point at the wrong menu lines.
+    ) else (
+        echo   Netplay addon aliases match the offline ones
+    )
 )
 echo.
 
-:: 2. Main codes
+:: 3. Main codes
 echo.
 echo ================================
-echo [1/4] Building RSBE01...
+echo [3/7] Building RSBE01...
 echo ================================
 "%GCT%" "sd_base\vBrawl\RSBE01.txt" < "%ENTER%"
 echo.
 
 echo.
 echo ================================
-echo [2/4] Building BOOST...
+echo [4/7] Building BOOST...
 echo ================================
 "%GCT%" "sd_base\vBrawl\BOOST.txt" < "%ENTER%"
 echo.
 
 echo.
 echo ================================
-echo [3/4] Building Codes NETPLAY...
+echo [5/7] Building Codes NETPLAY...
 echo ================================
 "%GCT%" "sd_base\vBrawl\NETPLAY.txt" < "%ENTER%"
 echo.
 
 echo.
 echo ================================
-echo [4/4] Building Codes NETBOOST...
+echo [6/7] Building Codes NETBOOST...
 echo ================================
 "%GCT%" "sd_base\vBrawl\NETBOOST.txt" < "%ENTER%"
 echo.
 
 :vdsstep
-:: 2. VDS Sync
+:: 7. VDS Sync
+echo.
+echo ================================
+echo [7/7] VDS Sync...
+echo ================================
 if exist "tools\VSDsync\VSDSync.exe" (
     echo Syncing with VDS Sync...
     "tools\VSDsync\VSDSync.exe" < "%ENTER%"
@@ -135,4 +135,55 @@ echo +==================================================+
 echo.
 pause >nul
 endlocal
+exit /b 0
+
+:: =============================================
+:: Subroutines
+:: =============================================
+
+:: :runbuilder "<exe name>" "<cmnu name>"
+:: The builder blocks on _getch "Press any key", which ignores redirected stdin.
+:: Delete its old .cmnu, start it, poll until the new .cmnu appears, then kill it.
+:runbuilder
+set "RB_EXE=%~1"
+set "RB_CMNU=%CM_OUTPUT%\%~2"
+if exist "%RB_CMNU%" del /q "%RB_CMNU%"
+pushd "%BUILDER_DIR%"
+start "" /B "%RB_EXE%"
+popd
+set /a rb_tries=0
+:rbwait
+if %rb_tries% GEQ 120 goto :rbtimeout
+if exist "%RB_CMNU%" (
+    timeout /t 1 /nobreak >nul
+    taskkill /F /IM "%RB_EXE%" >nul 2>&1
+    exit /b 0
+)
+timeout /t 1 /nobreak >nul
+set /a rb_tries+=1
+goto :rbwait
+:rbtimeout
+echo   [WARNING] Builder did not produce %~2 within 120 s, terminating.
+taskkill /F /IM "%RB_EXE%" >nul 2>&1
+exit /b 1
+
+:: :copyfile "<file name in Code_Menu_Output>" "<destination dir>"
+:copyfile
+if exist "%CM_OUTPUT%\%~1" (
+    copy /Y "%CM_OUTPUT%\%~1" "%~2\%~1" >nul
+    echo   Replaced %~1
+) else (
+    echo   [ERROR] %CM_OUTPUT%\%~1 not found!
+)
+exit /b 0
+
+:: :copyaddons "<destination dir>"
+:copyaddons
+if exist "%CM_ADDONS_SRC%" (
+    if exist "%~1" rmdir /S /Q "%~1"
+    xcopy /E /I /Y /Q "%CM_ADDONS_SRC%" "%~1" >nul
+    echo   Replaced CM_Addons
+) else (
+    echo   [ERROR] %CM_ADDONS_SRC% not found!
+)
 exit /b 0
