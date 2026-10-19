@@ -83,11 +83,11 @@ byte[8] -1, -1, 5, 6, 7, -1, 8, -1	# N/A, N/A, UP TAUNT, SIDE TAUNT, DOWN TAUNT,
 #
 # C-Stick
 # How to read based on index in customization menu
-byte[8] 0, 1, 2,  3, 4, 12, 13, 14	# 10: ATTACK, SPECIAL, JUMP, SHIELD, GRAB, TAUNT, CHARGE, TILT
-byte[8] 9, 8, 0, 0, 0, 0, 0, 0		# SMASH, NONE
+byte[8] 0, 1, 2,  3, 4, 12, 14, 9	# 9: ATTACK, SPECIAL, JUMP, SHIELD, GRAB, TAUNT, TILT, SMASH (CHARGE removed)
+byte[8] 8, 0, 0, 0, 0, 0, 0, 0		# NONE
 # How to save as
-byte[8] 0, 1, 2, 3, 4, 0xA, 0xB, 0xC	
-byte[8] 5, 0xE, 0, 0, 0, 0, 0, 0
+byte[8] 0, 1, 2, 3, 4, 0xA, 0xC, 5
+byte[8] 0xE, 0, 0, 0, 0, 0, 0, 0
 # How to read based on save setting (also used for Wiimote buttons)
 byte[8] 0, 1, 2, 3, 4, 9, -1, -1 		# 10: ATTACK, SPECIAL, JUMP, SHIELD, GRAB, SMASH, N/A, N/A 
 byte[8] -1, -1, 12, 13, 14, -1, 8, -1	# N/A, N/A, TAUNT, CHARGE, TILT, N/A, NONE, N/A
@@ -319,7 +319,7 @@ APressP2:
   addi r12, r17, 4						# \
   lbzx r0, r12, r14						# | If this is the C-Stick
   cmpw r4, r0; bne- notTheCStick		# /  
-  addi r30, r30, 0x1					# Add one option for C-Stick (Smash)
+  # C-Stick has the same number of options as a button now that CHARGE is removed
 notTheCStick:
   addi r12, r17, 12						# \
   lbzx r0, r12, r14						# | If this is Shake Smash
@@ -370,7 +370,9 @@ APressP3:
   
   lwz r6, 0x44(r5)		# Check which option we're on
   addi r12, r18, 0x10	# By default, assume this is going to be a normal button
-  lwz r0, 0x6C(r5); cmpwi r0, 9; beq- CStickConfig	# If there is one more option than usual, it's a C-Stick
+  addi r16, r17, 4;  lbzx r16, r16, r14	# C-Stick slot for this controller type
+  lwz r0, 0x6C(r5)
+  cmpw r30, r16;  beq- CStickConfig		# Editing the C-Stick? (option count no longer distinguishes it)
 					cmpwi r0, 6; bne+ ButtonConfig	# If there are 7 options, this is a Wiimote
 WiiButtonConfig: 
   addi r12, r18, 0x50	# Offset 0x50 for Wiimote button type index
@@ -609,8 +611,12 @@ loc_0xC8:		# Check if this is is a boolean toggle
   addi r29, r29, 10					# TAP JUMP/SHAKE SMASH OFF, ON are 10 and 11
   b loc_0x138
 notBoolean:
+  lis r4, 0x806A;  lwz r4, -0x184(r4)	# InputTable
+  lbz r12, 0x68(r6);  subi r12, r12, 10	# Controller type
+  addi r4, r4, 4;  lbzx r4, r4, r12		# C-Stick slot for this controller type
+  lbz r12, 0x63(r6)						# Slot being edited
+  cmpw r12, r4;  beq CStickSetup
   cmpwi r3, 8; beq ButtonSetup
-  cmpwi r3, 9; beq CStickSetup
 WiimoteButtonSetup:
 	addi r11, r11, 0x30		# Offset 0x60 for Wiimote
 CStickSetup:
