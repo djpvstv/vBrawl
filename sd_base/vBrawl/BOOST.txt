@@ -6,4 +6,6 @@
 
 .include Source/ProjectM/TrainingMode.asm
 
+.include Source/Rex/Rules.asm
+
 .include Source/P+Ex/AllStar.asm
