@@ -67,6 +67,11 @@ op fmr f3, f0	@ $8009E9B8
 op fmr f0, f1	@ $8009E9BC
 op fmr f0, f3	@ $8009E9C8
 
+############################################################
+[Legacy TE] Always use PACs instead of PCS files [DukeItOut]
+############################################################
+op NOP @ $8084CB40
+
 .include Source/Project+/FilePatchCode.asm
 
 ##########################################

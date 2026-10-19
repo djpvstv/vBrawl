@@ -10,3 +10,5 @@ Code Menu Builder/Code_Menu_Output/dnet.cmnu
 Code Menu Builder/Code_Menu_Output/Net-Code_Menu_Changelog.txt
 sd_base/vBrawl/BrawlInstaller/BuildSettings.json
 sd_base/vBrawl/BrawlInstaller/FighterList.json
+/sd_base/vBrawl/pf/fighter/
+/sd_base/vBrawl/pf/stage/melee/
