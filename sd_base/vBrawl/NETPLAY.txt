@@ -134,6 +134,17 @@ CSS Cursor Speed [Dantarion]
 #############################
 float 1.0 @ $806A1014
 
+#########################################
+[vBrawl] Frozen PS2, WarioWare, Pictochat
+#########################################
+* 42000000 90000000
+* 0416A904 00000000
+* 2A180F3A 00000014
+* 2A180F3A 0000001C
+* 2A180F3A 00000024
+* 0416A904 3F800000
+* E0000000 80008000
+
 .include Source/ProjectM/CSS.asm
 .include Source/ProjectM/SSSButtons.asm
 
