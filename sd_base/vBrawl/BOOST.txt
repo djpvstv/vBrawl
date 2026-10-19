@@ -1,4 +1,5 @@
 .include Source/LegacyTE/ASLHelper.asm		# Must come before StageFiles: frees 0x800B9EA0-A3 for stage ID / ASL button storage
+.include Source/LegacyTE/Replays.asm
 
 .include Source/Project+/StageFiles.asm
 
