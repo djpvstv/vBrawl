@@ -434,7 +434,7 @@
 			<option value="OFF" />
 		</codeMenuSelection>
 		<codeMenuToggle name="Aerial &amp; Dash Attack Item Grab Toggle">
-			<defaultValue value="false" editable="true" />
+			<defaultValue value="true" editable="true" />
 		</codeMenuToggle>
 		<codeMenuSelection name="Jumpsquat Modifier Mode">
 			<defaultOption index="0" editable="true" />
