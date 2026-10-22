@@ -351,7 +351,7 @@
 		</codeMenuFloat>
 		<codeMenuFloat name="Hitlag Multiplier">
 			<minValue value="0.000000" />
-			<defaultValue value="0.38461539" editable="true" />
+			<defaultValue value="0.384615" editable="true" />
 			<maxValue value="999.000000" />
 			<speed value="0.020000" />
 		</codeMenuFloat>
@@ -417,7 +417,7 @@
 		</codeMenuFloat>
 		<codeMenuFloat name="Wall Bounce Knockback Multiplier">
 			<minValue value="-999.000000" />
-			<defaultValue value="0.85" editable="true" />
+			<defaultValue value="0.850000" editable="true" />
 			<maxValue value="999.000000" />
 			<speed value="0.020000" />
 		</codeMenuFloat>
