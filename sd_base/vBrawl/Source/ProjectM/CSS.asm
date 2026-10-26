@@ -1,5 +1,5 @@
 ###########################################
-!CSS Selections Preserved in VS Mode [Magus]
+CSS Selections Preserved in VS Mode [Magus]
 ###########################################
 op b 0x3C @ $806DCA90
 
