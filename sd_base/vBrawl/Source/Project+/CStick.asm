@@ -1,5 +1,5 @@
 ########################################################################################
-C-stick Smash Fixes + functional tilt stick (reverse ftilt included) v1.2 [camelot, Eon]
+!C-stick Smash Fixes + functional tilt stick (reverse ftilt included) v1.2 [camelot, Eon]
 ########################################################################################
 #v1.1 fixed smashstick still being able to dtilt with crawl characters
 #v1.2 fixed smashstick being able to do specific angles to get ftilts
@@ -201,7 +201,7 @@ _end:
 }
 
 #######################################
-[Project+] Custom C-stick options [Eon]
+![Project+] Custom C-stick options [Eon]
 #######################################
 
 #Utaunt replaced by general Taunt Stick
@@ -289,12 +289,12 @@ end:
 }
 
 
-[Project+] C-stick mushing Fix [Eon]
+![Project+] C-stick mushing Fix [Eon]
 op andi. r16, r27, 2 @ $80048a10
 
 
 ###############################################################
-[Project+] C-Stick throws 2.0 [Eon, Dantarion, standardtoaster]
+![Project+] C-Stick throws 2.0 [Eon, Dantarion, standardtoaster]
 ###############################################################
 .alias C_Stick_off = 0x805480F0
 .alias C_Stick_off2 = 0x80548220
@@ -373,12 +373,12 @@ CODE @ $80FAF85C
 	word 0x00090100; word C_Stick_Off2
 }
 
-Cstick Neutral range = Cstick input range [Eon]
+!Cstick Neutral range = Cstick input range [Eon]
 #removes where cstick is in neutral but not close enough to allow a new cstick input
 op cmpwi r29, 2500 @ $80048bd0
 
 ################################
-C-Stick backwards fsmash bug fix [Eon]
+!C-Stick backwards fsmash bug fix [Eon]
 ################################
 word 0x1 @ $80FB2A6C #scalar
 scalar 0.0 @ $80FB2A70 #0.0 
