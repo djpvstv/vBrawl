@@ -1347,3 +1347,51 @@ HOOK @ $806B7A5C
 	cmpwi r6, 0x0;  bne+ %END%				# Skip if no strikes?
 	lwz r5, 0x20(r21);  lwz r6, 0x24(r21)
 }
+
+######################################################################
+[vBrawl] Vanilla Per-Stage Item Switch Data Despite RSS_EXDATA [vBrawl]
+######################################################################
+# RSS_EXDATA (0x8042C4E8) is loaded on top of g_stageKindItSwitch (0x8042C4B8, 0x10 per row),
+# wiping the item/pokemon/assist switches of every stage row from Dolpic onwards.
+# Rebuild the vanilla row (every row is all-on except the bits below) after it is read.
+HOOK @ $80055B44	# gmGetItemSwitchData_NormalStage
+{
+	lis r12, 0x8043			# \
+	subi r12, r12, 0x3B48	# | row index = (rowPtr - g_stageKindItSwitch) / 0x10
+	sub r12, r7, r12		# |
+	srwi r12, r12, 4		# /
+	lis r6, 0x000F; ori r6, r6, 0xFFFF	# itemSwitch[0]
+	li r5, -1							# itemSwitch[1]
+	lis r4, 0x3FFF; ori r4, r4, 0xFFFF	# pokemonSwitch
+	lis r0, 0x07FF; ori r0, r0, 0xFFFF	# assistSwitch
+	cmplwi r12, 32
+	bge- highRows
+	lis r9, 0x0016; ori r9, r9, 0x2A08	# rows without item 0x400: 3, 9, 11, 13, 17, 18, 20
+	lis r10, 0x4922; ori r10, r10, 0x05A8	# rows without assist 0x20: 3, 5, 7, 8, 10, 17, 21, 24, 27, 30
+	mr r11, r12
+	b checkRow
+highRows:
+	li r9, 0xE0				# rows without item 0x400: 37, 38, 39
+	li r10, 0x100			# rows without assist 0x20: 40
+	subi r11, r12, 32
+checkRow:
+	srw r9, r9, r11
+	andi. r9, r9, 0x1
+	beq+ keepItem
+	li r9, 0x400
+	andc r6, r6, r9
+keepItem:
+	srw r10, r10, r11
+	andi. r10, r10, 0x1
+	beq+ keepAssist
+	li r10, 0x20
+	andc r0, r0, r10
+keepAssist:
+	cmplwi r12, 0x2A		# \ Stage_Edit row also lacks assist 0x800
+	bne+ storeRow			# |
+	li r10, 0x800			# |
+	andc r0, r0, r10		# /
+storeRow:
+	stw r6, 0x0(r31)		# itemSwitch[0] was already stored from the overwritten row
+	lwz r3, -0x4340(r13)	# Original operation
+}
