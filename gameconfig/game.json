@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "game_id": "ID-vBrawl Offline Launcher",
+  "revision": 0,
+  "frame_boundary": "vi_begin_field",
+  "sd_card": "vBrawl_V4.raw",
+  "gecko_codes": "codes.ini",
+  "save": {
+    "type": "wii_nand",
+    "path": "nand"
+  }
+}
