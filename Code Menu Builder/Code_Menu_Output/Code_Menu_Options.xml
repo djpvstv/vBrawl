@@ -711,34 +711,4 @@
 			<defaultValue value="false" editable="true" />
 		</codeMenuToggle>
 	</codeMenuPage>
-	<codeMenuPage name="HUD Colors" hidden="true">
-		<codeMenuSelection name="Player 1" sticky="true">
-			<defaultOption index="0" editable="true" />
-			<option value="P1" />
-			<option value="P2" />
-			<option value="P3" />
-			<option value="P4" />
-			<option value="Pink" />
-			<option value="Purple" />
-			<option value="Orange" />
-			<option value="Cyan" />
-			<option value="Gray" />
-			<option value="Black" />
-			<option value="White" />
-			<option value="RGB" />
-			<option value="DarkRGB" />
-		</codeMenuSelection>
-		<codeMenuSelection name="Player 2" sticky="true">
-			<defaultOption index="1" editable="true" />
-			<!--Note: This Selection is a mirror of "HUD Colors > Player 1"!-->
-		</codeMenuSelection>
-		<codeMenuSelection name="Player 3" sticky="true">
-			<defaultOption index="2" editable="true" />
-			<!--Note: This Selection is a mirror of "HUD Colors > Player 1"!-->
-		</codeMenuSelection>
-		<codeMenuSelection name="Player 4" sticky="true">
-			<defaultOption index="3" editable="true" />
-			<!--Note: This Selection is a mirror of "HUD Colors > Player 1"!-->
-		</codeMenuSelection>
-	</codeMenuPage>
 </codeMenu>
