@@ -14,7 +14,7 @@ Everything below differs from vanilla Brawl.
 ### Gameplay
 
 - **Tripping is disabled.** [Kapedani]
-- **Controller input lag fix.** Removes the extra frame of input delay. [Magus]
+- **Controller input lag fix.** Use the initial set of polled inputs polled during the current frame. Reduces input lag by a variable 0-2 frames. [Magus]
 - **Gameplay is vanilla by default.** Every Code Menu gameplay setting (hitstun, hitlag, shield values, staling, item grabs, input buffer, jumpsquat) defaults to the vanilla brawl value. Nothing changes until you change it.
 - **Default ruleset:** 3 stocks, 8-minute time limit, team attack on, pausing off. You can still change any of these in Rules. [vBrawl]
 
