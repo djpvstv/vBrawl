@@ -105,7 +105,7 @@ Everything else (debug displays, special modes, gameplay modifiers, Endless Frie
 - **Separate Netplay build.** It has its own Code Menu, which is closed by default. Netplay-unsafe options (input buffer, speed and scale modifiers, bonus mechanics and similar) are hidden.
 - **Dolphin netplay fixes.** The v-sync call is moved for smoother netplay [hannesmann, Dan Salvato, Achilles].
 - **Fewer screens between matches.** Netplay skips the strap/health screen on boot [PyotrLuzhin], the results screen, and the save-replay prompt (replays autosave instead).
-- **Salty Runback.** Restart the current match with the same characters and stage using a button combination. Music works on expansion stages too. [DukeItOut]
+- **Salty Runback.** Restart the current match with the same characters with L + R + Y. Music works on expansion stages too. [DukeItOut]
 - **No Challenger Approaching screens** (included `gameconfig`). [ds22]
 
 ### Under the hood
