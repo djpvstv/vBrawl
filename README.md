@@ -39,7 +39,8 @@ Everything below differs from vanilla Brawl.
   - Sweet Spot X Blue
   - Ohio Ruleset 2025
   - Mushi League
-  - All Stages (vanilla behaivor)
+  - All Stages (vanilla behavior)
+- **Press Y on a stage to enter the My Music menu to adjust song frequency. Press Start on this menu to choose that song and that stage**
 - **Press L + R + A on Stage Select to go back to Character Select.** [ds22, Magus]
 - **Custom Stage Select Screen engine** with alternate stage support and a stage-list display. [Spunit, Phantom Wings, SOJ, Yohan1044, DukeItOut, JOJI, Kapedani]
 
@@ -97,6 +98,7 @@ Everything else (debug displays, special modes, gameplay modifiers, Endless Frie
 - **Custom My Music.** Each stage's song list is read from tracklist files, so you can add or change songs. Song titles display correctly, and Metal Cavern and the Training room can have their own playlists. [JOJI, DukeItOut, Kapedani]
 - **Hanenbow is in My Music.** [Desi, JOJI, DukeItOut]
 - **Netplay has its own tracklists** The Netplay build uses its own set of tracklists and cannot be modified (this is to prevent desyncs).
+- **Select Song in Stage Select** Press Y to enter the My Music menu in the Stage Selection menu. Play a song with A, choose the song and stage with Start.
 
 ### Netplay
 
