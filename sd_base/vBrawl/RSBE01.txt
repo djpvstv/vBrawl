@@ -67,6 +67,8 @@ op fmr f3, f0	@ $8009E9B8
 op fmr f0, f1	@ $8009E9BC
 op fmr f0, f3	@ $8009E9C8
 
+.include Source/vBrawl/DefaultRules.asm
+
 ############################################################
 [Legacy TE] Always use PACs instead of PCS files [DukeItOut]
 ############################################################

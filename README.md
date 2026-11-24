@@ -70,7 +70,6 @@ The Code Menu ("Vanilla Brawl Code Menu") has the options below. Gameplay option
   - Melee-style camera freeze on the final hit [Eon, QuickLava]
   - Parry taunts [QuickLava]
   - Universal walljumps [Dantarion, QuickLava]
-- **Bonus Mechanics** (offline only) [QuickLava]. Per-player opt-in mechanics: Magic Series, Focus Attacks, and a "Rivals Mode" set (parries, hitfalling, baby dashes, tilt cancels, actionable airdodges, button walljumps and more).
 - **Volume balance.** Adjusts how loud sound effects are compared to the music. [QuickLava]
 
 #### Default settings by build

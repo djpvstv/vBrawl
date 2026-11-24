@@ -495,7 +495,7 @@
 			<speed value="0.010000" />
 		</codeMenuFloat>
 	</codeMenuPage>
-	<codeMenuPage name="Bonus Mechanic Settings" />
+	<codeMenuPage name="Bonus Mechanic Settings" hidden="true" />
 	<codeMenuPage name="Player 1 Mechanic Settings">
 		<codeMenuSelection name="Active Mechanic">
 			<defaultOption index="0" editable="true" />
