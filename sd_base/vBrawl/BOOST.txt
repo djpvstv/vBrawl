@@ -9,4 +9,6 @@
 
 .include Source/Rex/Rules.asm
 
+.include Source/Community/MusicSelect.asm
+
 .include Source/P+Ex/AllStar.asm

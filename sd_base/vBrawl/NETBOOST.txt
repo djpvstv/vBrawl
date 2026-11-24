@@ -9,5 +9,7 @@
 
 .include Source/Rex/Rules.asm
 
+.include Source/Community/MusicSelect.asm
+
 .include Source/P+Ex/AllStar.asm
 .include Source/Extras/Netplay.asm	# Only use this in Dolphin! The codes in this will result in bad behavior on the Wii!
